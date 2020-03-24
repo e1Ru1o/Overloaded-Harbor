@@ -10,7 +10,7 @@ def get_category(data):
     a <data> set representing the
     ocurrence probability of each one
     '''
-    pass
+    return 0
 
 def exponential(lamb):
     '''

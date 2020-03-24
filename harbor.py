@@ -12,6 +12,10 @@ class Harbor:
         self.count = 0
         self.docks = docks
         self.events = []
+        self.size = [0] * n
+        self.arrivals = [0] * n
+        self.prob = [0.25, 0.25, 0.5]
+        self.cargo_params = [(540, 60), (720, 120), (1080, 180)]
         self.iddle()
         
     def arrive(self):
@@ -29,7 +33,13 @@ class Harbor:
         '''
         Enque a new ship that just arrived
         '''
-        return True
+        size = get_size(self.prob)
+        self.size[e.details] = size
+        self.arrivals[e.details] = e.time
+        self.time = max(self.time, e.time)
+        #TODO: Notify an arrival
+        self.events.append(Event(None, self.move, e.details))
+        return self.arrive()
 
     def move(self, e):
         '''

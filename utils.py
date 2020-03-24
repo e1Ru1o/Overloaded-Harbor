@@ -2,7 +2,7 @@ from math import log
 from random import random
 from collections import namedtuple
 
-Event = namedtuple("Event", "time callback details")
+Event = namedtuple("Event", "time details callback")
 
 def bublle_sort_last(data):
     '''
@@ -10,9 +10,11 @@ def bublle_sort_last(data):
     to the last element of <data>
     '''
     for i in range(len(data) - 2, -1, -1):
-        if data[i] > data[i + 1]:
+        try:
+            assert data[i] > data[i + 1] 
+            data[i], data[i + 1] = data[i + 1], data[i]
+        except:
             break
-        data[i], data[i + 1] = data[i + 1], data[i]
 
 def get_category(data):
     '''

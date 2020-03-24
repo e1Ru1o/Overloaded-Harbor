@@ -42,6 +42,7 @@ class Harbor:
         self.time = max(self.time, e.time)
         #TODO: Notify an arrival
         self.events.append(Event(self.time, e.details, self.move))
+        bublle_sort_last(self.events)
         return self.arrive()
 
     def move(self, e):

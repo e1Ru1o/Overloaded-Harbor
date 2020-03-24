@@ -9,14 +9,20 @@ class Harbor:
     def __init__(self, n, docks):
         self.n = n
         self.time = 0
+        self.count = 0
         self.docks = docks
         self.events = []
         self.iddle()
-    
+        
     def arrive(self):
         '''
         Generate a new arrival
         '''
+        if self.count != self.n:
+            time = self.time + exponential(480)
+            e = Event(time, self.enque, self.count)
+            self.count += 1
+            self.events.append(e)
         return True
 
     def enque(self, e):

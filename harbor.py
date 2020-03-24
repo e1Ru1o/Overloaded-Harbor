@@ -27,6 +27,7 @@ class Harbor:
         Generate a new arrival
         '''
         if self.count != self.n:
+            log.debug(f"Generating the arrival time of ship number {self.count}", "Arrive")
             time = self.time + exponential(8) * 60
             e = Event(time, self.count, self.enque)
             self.count += 1
@@ -51,9 +52,10 @@ class Harbor:
         Move a ship to a dock
         '''
         if (self.docks == 0) or self.bussy:
+            log.debug("Imposible to move ship number {e.details} at this moment", "Move ")
             return False
-        log.info(f'Ship number {e.details} is being moved to a dock', 'Move  ')
         self.go(1)
+        log.info(f'Ship number {e.details} is being moved to a dock', 'Move  ')
         self.bussy = True
         time = self.time + exponential(2) * 60
         self.events.append(Event(time, e.details, self.dock))
@@ -86,6 +88,7 @@ class Harbor:
         Move a ship out of the docks
         '''
         if self.bussy:
+            log.debug(f"Tug is bussy, ship number {e.details} stay at dock", "Depart")
             return False
         log.info(f'Ship number {e.details} is being moved back to the port', 'Depart')
         self.go(0)
@@ -108,10 +111,12 @@ class Harbor:
     def go(self, pos):
         '''
         Move the tug to <pos>.
-        1 implies the docks,
-        0 implies the port.
+        1 implies the port,
+        0 implies the docks.
         '''
         if pos != self.ship:
+            name = ['docks', 'port'][pos]
+            log.info(f'Moving the tug to the {name}', 'Go    ')
             self.time += exponential(15)
         self.ship = 1 - pos
 

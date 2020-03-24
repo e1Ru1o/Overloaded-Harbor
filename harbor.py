@@ -18,7 +18,7 @@ class Harbor:
         self.arrivals = [0] * n
         self.departures = [0] * n
         self.prob = [0.25, 0.25, 0.5]
-        self.cargo_params = [(540, 60), (720, 120), (1080, 180)]
+        self.cargo_params = [(9, 1), (12, 2), (18, 3)]
         self.iddle()
         
     def arrive(self):
@@ -26,7 +26,7 @@ class Harbor:
         Generate a new arrival
         '''
         if self.count != self.n:
-            time = self.time + exponential(480)
+            time = self.time + exponential(8) * 60
             e = Event(time, self.enque, self.count)
             self.count += 1
             self.events.append(e)
@@ -53,7 +53,7 @@ class Harbor:
         #TODO: Notify that a ship is been atended
         self.go(1)
         self.bussy = True
-        time = self.time + exponential(120)
+        time = self.time + exponential(2) * 60
         self.events.append(Event(time, self.dock, e.details))
         return True
 
@@ -87,7 +87,7 @@ class Harbor:
         self.go(0)
         self.docks += 1
         self.bussy = True
-        time = self.time + exponential(120)
+        time = self.time + exponential(1) * 60
         self.events.append(Event(time, self.done, e.details))
         return True
 
@@ -117,7 +117,7 @@ class Harbor:
         load cargo requiered time
         '''
         u, o = self.cargo_params[id]
-        return self.time + normal(u, o) 
+        return self.time + normal(u, o) * 60
 
     def elapsed(self, id):
         '''

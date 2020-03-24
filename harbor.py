@@ -1,5 +1,6 @@
 from utils import get_category as get_size
 from utils import exponential, Event, normal, mean, bublle_sort_last
+from logger.logger import LoggerFactory as Logger
 
 class Harbor:
     '''
@@ -40,7 +41,7 @@ class Harbor:
         self.size[e.details] = size
         self.arrivals[e.details] = e.time
         self.time = max(self.time, e.time)
-        #TODO: Notify an arrival
+        log.info(f'Ship number {e.details} arrive to the port', 'Enque ')
         self.events.append(Event(self.time, e.details, self.move))
         bublle_sort_last(self.events)
         return self.arrive()
@@ -51,7 +52,7 @@ class Harbor:
         '''
         if (self.docks == 0) or self.bussy:
             return False
-        #TODO: Notify that a ship is been atended
+        log.info(f'Ship number {e.details} is being moved to a dock', 'Move  ')
         self.go(1)
         self.bussy = True
         time = self.time + exponential(2) * 60
@@ -62,7 +63,7 @@ class Harbor:
         '''
         Start load the cargo of a ship
         '''
-        #TODO: Notify that a ship starts to load its cargo
+        log.info(f'Ship number {e.details} is loading its cargo', 'Dock  ')
         self.time = max(self.time, e.time)
         self.docks -= 1
         self.bussy = False
@@ -75,7 +76,7 @@ class Harbor:
         Finish to load the ship cargo
         and wait for it's departure
         '''
-        #TODO: Notify that a ship finsih of load his cargo
+        log.info(f'Ship number {e.details} is already loaded', 'Ready ')
         self.time = max(self.time, e.time)
         self.events.append(Event(self.time, e.details, self.depart))
         return True
@@ -86,7 +87,7 @@ class Harbor:
         '''
         if self.bussy:
             return False
-        #TODO: Notify that a ship is abandoning its dock
+        log.info(f'Ship number {e.details} is being moved back to the port', 'Depart')
         self.go(0)
         self.docks += 1
         self.bussy = True
@@ -98,7 +99,7 @@ class Harbor:
         '''
         Finish to service a ship
         '''
-        #TODO: Notify that a ship is abandoning the harbor
+        log.info(f'Ship number {e.details} is leaving the harbor', 'Done  ')
         self.bussy = False
         self.time = max(self.time, e.time)
         self.departures[e.details] = self.time
@@ -142,25 +143,36 @@ class Harbor:
                     self.events.pop(i)
                     bublle_sort_last(self.events)
                     break
-        #TODO: Notify that the harbor finish its service
+        log.info(f'All ships were served. Closing harbor', 'Iddle ')
 
 
 def main(args):
     elapsed = []
     for _ in range(args.tries):
+        log.info("Starting a new harbor simulation", 'Main  ')
         harbor = Harbor(args.amount, args.docks)
         elapsed.extend([harbor.elapsed(i) / 60 for i in range(args.amount)])
+        log.info('', 'Main  ')
     ev = mean(elapsed)
-    #TODO: Show the mean
+    log.info(f"The mean of the ships turn around time is {ev}", 'Main  ')
     return ev
 
 if __name__ == '__main__':
-    import argparse
+    import argparse, os
 
     parser = argparse.ArgumentParser(description='Harbor simulator')
     parser.add_argument('-d', '--docks', type=int, default=3, help='number of harbor docks')
     parser.add_argument('-a', '--amount', type=int, default=3, help='number of ships to attend')
     parser.add_argument('-t', '--tries', type=int, default=10, help='number of harbor simulations')
+    parser.add_argument('-l', '--level', type=str, default='INFO', help='log level')
+    parser.add_argument('-F', '--file', type=bool, const=True, nargs='?', help='write the log in a file')
 
     args = parser.parse_args()
-    main(args)
+    if args.file:
+        os.makedirs("./logs/", exist_ok=True)
+    log = Logger(name='Harbor-Logguer', log=args.file)
+    log.setLevel(args.level)
+
+    ev = main(args)
+    if args.file: 
+        print(ev)

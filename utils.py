@@ -30,7 +30,12 @@ def normal(u, o):
     distribution of mean <u>
     and variance <o>
     '''
-    pass
+    while(True):
+        y1 = exponential(1)
+        y2 = exponential(1)
+        v = y2 - (((y1 - 1) ** 2) / 2)
+        if v > 0:
+            return v
 
 def mean(data):
     '''

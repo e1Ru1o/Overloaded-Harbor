@@ -101,7 +101,7 @@ class Harbor:
         #TODO: Notify that a ship is abandoning the harbor
         self.bussy = False
         self.time = max(self.time, e.time)
-        self.departures[e.details] = e.time
+        self.departures[e.details] = self.time
         return True          
 
     def go(self, pos):
@@ -111,8 +111,8 @@ class Harbor:
         0 implies the port.
         '''
         if pos != self.ship:
-            self.ship = 1 - self.ship
             self.time += exponential(15)
+        self.ship = 1 - pos
 
     def load_time(self, id):
         '''

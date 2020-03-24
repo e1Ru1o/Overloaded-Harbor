@@ -22,7 +22,7 @@ def exponential(lamb):
     Simulate an exponential
     distribution of parameter <lamb>
     '''
-    pass
+    return -log(random()) / lamb
 
 def normal(u, o):
     '''

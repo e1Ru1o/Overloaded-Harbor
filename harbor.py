@@ -152,3 +152,12 @@ def simulate(args):
     #TODO: Show the mean
     return ev
 
+if __name__ == '__main__':
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Harbor simulator')
+    parser.add_argument('-d', '--docks', type=int, default=3, help='number of harbor docks')
+    parser.add_argument('-a', '--amount', type=int, default=3, help='number of ships to attend')
+
+    args = parser.parse_args()
+    main(args)

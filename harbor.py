@@ -9,9 +9,11 @@ class Harbor:
     def __init__(self, n, docks):
         self.n = n
         self.time = 0
+        self.ship = 0
         self.count = 0
-        self.docks = docks
         self.events = []
+        self.bussy = True
+        self.docks = docks
         self.size = [0] * n
         self.arrivals = [0] * n
         self.prob = [0.25, 0.25, 0.5]
@@ -45,6 +47,13 @@ class Harbor:
         '''
         Move a ship to a dock
         '''
+        if self.docks == 0 or self.bussy:
+            return False
+        #TODO: Notify that a ship is been atended
+        self.go(1)
+        self.bussy = True
+        time = self.time + exponential(120)
+        self.events.append(Event(time, self.dock, e.details))
         return True
 
     def dock(self, e):
@@ -78,7 +87,9 @@ class Harbor:
         1 implies the docks,
         0 implies the port.
         '''
-        pass
+        if pos != self.ship:
+            self.ship = 1 - self.ship
+            self.time += exponential(15)
 
     def load_time(self, id):
         '''

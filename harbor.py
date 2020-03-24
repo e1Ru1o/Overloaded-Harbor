@@ -16,6 +16,7 @@ class Harbor:
         self.docks = docks
         self.size = [0] * n
         self.arrivals = [0] * n
+        self.departures = [0] * n
         self.prob = [0.25, 0.25, 0.5]
         self.cargo_params = [(540, 60), (720, 120), (1080, 180)]
         self.iddle()
@@ -73,19 +74,32 @@ class Harbor:
         Finish to load the ship cargo
         and wait for it's departure
         '''
+        #TODO: Notify that a ship finsih of load his cargo
+        self.time = max(self.time, e.time)
+        self.events.append(Event(None, self.depart, e.details))
         return True
 
     def depart(self, e):
         '''
         Move a ship out of the docks
         '''
+        #TODO: Notify that a ship is abandoning its dock
+        self.go(0)
+        self.docks += 1
+        self.bussy = True
+        time = self.time + exponential(120)
+        self.events.append(Event(time, self.done, e.details))
         return True
 
     def done(self, e):
         '''
         Finish to service a ship
         '''
-        return True        
+        #TODO: Notify that a ship is abandoning the harbor
+        self.bussy = False
+        self.time = max(self.time, e.time)
+        self.departures[e.details] = e.time
+        return True          
 
     def go(self, pos):
         '''

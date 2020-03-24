@@ -1,5 +1,5 @@
 from utils import get_category as get_size
-from utils import exponential, Event, normal, mean
+from utils import exponential, Event, normal, mean, bublle_sort_last
 
 class Harbor:
     '''
@@ -125,7 +125,7 @@ class Harbor:
         between the ship <id>
         arrival and departure
         '''
-        return 0
+        return self.departures[id] - self.arrivals[id]
 
     def iddle(self):
         '''
@@ -137,6 +137,7 @@ class Harbor:
                 e = self.events[i]
                 if e.callback(e):
                     self.events.pop(i)
+                    bublle_sort_last(self.events)
                     break
         #TODO: Notify that the harbor finish its service
 

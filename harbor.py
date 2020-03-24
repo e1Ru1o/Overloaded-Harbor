@@ -12,7 +12,7 @@ class Harbor:
         self.ship = 0
         self.count = 0
         self.events = []
-        self.bussy = True
+        self.bussy = False
         self.docks = docks
         self.size = [0] * n
         self.arrivals = [0] * n

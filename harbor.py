@@ -145,9 +145,11 @@ class Harbor:
         #TODO: Notify that the harbor finish its service
 
 
-def simulate(args):
-    harbor = Harbor(args.amount, args.docks)
-    elapsed = [harbor.elapsed(i) for i in range(args.amount)]
+def main(args):
+    elapsed = []
+    for _ in range(args.tries):
+        harbor = Harbor(args.amount, args.docks)
+        elapsed.extend([harbor.elapsed(i) / 60 for i in range(args.amount)])
     ev = mean(elapsed)
     #TODO: Show the mean
     return ev
@@ -158,6 +160,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Harbor simulator')
     parser.add_argument('-d', '--docks', type=int, default=3, help='number of harbor docks')
     parser.add_argument('-a', '--amount', type=int, default=3, help='number of ships to attend')
+    parser.add_argument('-t', '--tries', type=int, default=10, help='number of harbor simulations')
 
     args = parser.parse_args()
     main(args)

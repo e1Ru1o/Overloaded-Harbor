@@ -20,14 +20,19 @@ def get_category(data):
     a <data> set representing the
     ocurrence probability of each one
     '''
-    return 0
+    u = random()
+    interval = 0
+    for i, v in enumerate(data):
+        interval += v
+        if u <= interval:
+            return i
 
 def exponential(lamb):
     '''
     Simulate an exponential
     distribution of parameter <lamb>
     '''
-    pass
+    return -log(random()) / lamb
 
 def normal(u, o):
     '''
@@ -35,7 +40,12 @@ def normal(u, o):
     distribution of mean <u>
     and variance <o>
     '''
-    pass
+    while(True):
+        y1 = exponential(1)
+        y2 = exponential(1)
+        v = y2 - (((y1 - 1) ** 2) / 2)
+        if v > 0:
+            return v
 
 def mean(data):
     '''

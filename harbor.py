@@ -49,7 +49,7 @@ class Harbor:
         '''
         Move a ship to a dock
         '''
-        if self.docks == 0 or self.bussy:
+        if (self.docks == 0) or self.bussy:
             return False
         #TODO: Notify that a ship is been atended
         self.go(1)

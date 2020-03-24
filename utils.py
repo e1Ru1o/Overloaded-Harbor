@@ -10,7 +10,12 @@ def get_category(data):
     a <data> set representing the
     ocurrence probability of each one
     '''
-    pass
+    u = random()
+    interval = 0
+    for i, v in enumerate(data):
+        interval += v
+        if u <= interval:
+            return i
 
 def exponential(lamb):
     '''

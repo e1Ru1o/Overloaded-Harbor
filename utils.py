@@ -2,7 +2,7 @@ from math import log
 from random import random
 from collections import namedtuple
 
-Event = namedtuple("Event", "time callback details")
+Event = namedtuple("Event", "time details callback")
 
 def bublle_sort_last(data):
     '''

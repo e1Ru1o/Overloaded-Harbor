@@ -27,7 +27,7 @@ class Harbor:
         '''
         if self.count != self.n:
             time = self.time + exponential(8) * 60
-            e = Event(time, self.enque, self.count)
+            e = Event(time, self.count, self.enque)
             self.count += 1
             self.events.append(e)
         return True
@@ -41,7 +41,7 @@ class Harbor:
         self.arrivals[e.details] = e.time
         self.time = max(self.time, e.time)
         #TODO: Notify an arrival
-        self.events.append(Event(None, self.move, e.details))
+        self.events.append(Event(self.time, e.details, self.move))
         return self.arrive()
 
     def move(self, e):
@@ -54,7 +54,7 @@ class Harbor:
         self.go(1)
         self.bussy = True
         time = self.time + exponential(2) * 60
-        self.events.append(Event(time, self.dock, e.details))
+        self.events.append(Event(time, e.details, self.dock))
         return True
 
     def dock(self, e):
@@ -66,7 +66,7 @@ class Harbor:
         self.docks -= 1
         self.bussy = False
         time = self.load_time(self.size[e.details])
-        self.events.append(Event(time, self.ready, e.details))
+        self.events.append(Event(time, e.details, self.ready))
         return True
 
     def ready(self, e):
@@ -76,7 +76,7 @@ class Harbor:
         '''
         #TODO: Notify that a ship finsih of load his cargo
         self.time = max(self.time, e.time)
-        self.events.append(Event(None, self.depart, e.details))
+        self.events.append(Event(self.time, e.details, self.depart))
         return True
 
     def depart(self, e):
@@ -88,7 +88,7 @@ class Harbor:
         self.docks += 1
         self.bussy = True
         time = self.time + exponential(1) * 60
-        self.events.append(Event(time, self.done, e.details))
+        self.events.append(Event(time, e.details, self.done))
         return True
 
     def done(self, e):

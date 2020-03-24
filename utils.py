@@ -4,13 +4,23 @@ from collections import namedtuple
 
 Event = namedtuple("Event", "time callback details")
 
+def bublle_sort_last(data):
+    '''
+    Apply bublle sort algorithm
+    to the last element of <data>
+    '''
+    for i in range(len(data) - 2, -1, -1):
+        if data[i] > data[i + 1]:
+            break
+        data[i], data[i + 1] = data[i + 1], data[i]
+
 def get_category(data):
     '''
     Return a category index given
     a <data> set representing the
     ocurrence probability of each one
     '''
-    pass
+    return 0
 
 def exponential(lamb):
     '''

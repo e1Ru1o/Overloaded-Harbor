@@ -84,6 +84,8 @@ class Harbor:
         '''
         Move a ship out of the docks
         '''
+        if self.bussy:
+            return False
         #TODO: Notify that a ship is abandoning its dock
         self.go(0)
         self.docks += 1

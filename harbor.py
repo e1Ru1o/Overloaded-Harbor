@@ -60,6 +60,12 @@ class Harbor:
         '''
         Start load the cargo of a ship
         '''
+        #TODO: Notify that a ship starts to load its cargo
+        self.time = max(self.time, e.time)
+        self.docks -= 1
+        self.bussy = False
+        time = self.load_time(self.size[e.details])
+        self.events.append(Event(time, self.ready, e.details))
         return True
 
     def ready(self, e):
@@ -96,7 +102,8 @@ class Harbor:
         Return the ship number <id>
         load cargo requiered time
         '''
-        return self.time
+        u, o = self.cargo_params[id]
+        return self.time + normal(u, o) 
 
     def elapsed(self, id):
         '''

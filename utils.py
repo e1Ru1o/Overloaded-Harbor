@@ -47,7 +47,7 @@ def normal(u, o):
         y2 = exponential(1)
         v = y2 - (((y1 - 1) ** 2) / 2)
         if v > 0:
-            return v
+            return u + y1 * (o ** 0.5)
 
 def mean(data):
     '''

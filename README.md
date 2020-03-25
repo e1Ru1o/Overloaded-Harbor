@@ -1,7 +1,7 @@
 # Overloaded-Harbor
 
 This project simulates the behaivior of a harbor given the number of docks that it has and the number of ships arrival that will occur. Details about the harbor are explicit 
-described in the section #2 of the project file loacated at `Paper/project.pdf`. 
+described in the section #2 of the project file loacated at `Paper/files/project.pdf`. 
 
 After each simulation the program show the mean of the turn around time of the ships.
 

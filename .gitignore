@@ -2,6 +2,9 @@
 *.aux
 *.fdb_latexmk
 *.fls
+*.toc
+*.gz
+*.out
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

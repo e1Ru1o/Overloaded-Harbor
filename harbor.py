@@ -29,20 +29,20 @@ class Harbor:
         if self.count != self.n:
             log.debug(f"Generating the arrival time of ship number {self.count}", "Arrive")
             time = self.time + exponential(8) * 60
-            e = Event(time, self.count, self.enque)
+            e = Event(time, self.count, self.enqueue)
             self.count += 1
             self.events.append(e)
         return True
 
-    def enque(self, e):
+    def enqueue(self, e):
         '''
-        Enque a new ship that just arrived
+        Enqueue a new ship that just arrived
         '''
         size = get_size(self.prob)
         self.size[e.details] = size
         self.arrivals[e.details] = e.time
         self.time = max(self.time, e.time)
-        log.info(f'Ship number {e.details} arrive to the port', 'Enque ')
+        log.info(f'Ship number {e.details} arrive to the port', 'Enqueue ')
         self.events.append(Event(self.time, e.details, self.move))
         bublle_sort_last(self.events)
         return self.arrive()

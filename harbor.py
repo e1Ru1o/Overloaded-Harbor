@@ -159,7 +159,7 @@ def main(args):
         elapsed.extend([harbor.elapsed(i) / 60 for i in range(args.amount)])
         log.info('', 'Main  ')
     ev = mean(elapsed)
-    log.info(f"The mean of the ships turn around time is {ev}", 'Main  ')
+    log.info(f"The mean of the ships turn around time is {ev} hours", 'Main  ')
     return ev
 
 if __name__ == '__main__':

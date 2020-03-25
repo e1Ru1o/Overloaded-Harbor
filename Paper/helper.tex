@@ -1,0 +1,162 @@
+\usepackage[OT4,OT1,T1]{fontenc} 
+%%\usepackage[scaled]{uarial} 
+%%\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{listings}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{stmaryrd}
+\usepackage{bbm}
+\usepackage{pxfonts}
+\usepackage{yfonts}
+\usepackage{tipa}
+\usepackage{multicol}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{xcolor, pstricks}
+\lstset{ %
+	language=Python, % lenguaje
+	basicstyle=\normalsize\ttfamily,
+	keywordstyle=\color{blue},
+	commentstyle=\color{blue!50},
+	backgroundcolor=\color{gray!9},
+	identifierstyle = \color{gray!161},
+	stringstyle = \color{yellow},
+	numberstyle = \color{green},
+	columns=fullflexible,
+	showspaces=false,
+	tabsize = 4
+}
+
+% from gaby
+\usepackage{titlesec}
+\titleformat{\section}[frame]{\normalfont}
+{\filright\Huge\bfseries\enspace \thesection\enspace}
+{8pt}{\Large\bfseries\filcenter}
+
+\usepackage{xypic} %%% Para los diagramas
+
+\input xy 		%%% Para los diagramas
+\xyoption{all} %%% Para los diagramas
+
+
+\newtheorem{theorem}{\bf Teorema}[section] %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{exe}{\bf Ejercicio}[section] %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{definition}{\bf Definici\'on}[section]   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{proposition}{\bf Proposici\'on}[section]  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{corollary}{\bf Corolario}[section] %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{law}{\bf Lema}[section]
+
+
+
+\newenvironment{proofIdea}{\noindent \emph{Idea general de la demostraci\'on:} \normalfont \it \newline \small}{\hfill $\boxbox$ \\}
+\newenvironment{proof}{\noindent \emph{Demostraci\'on:}  \newline \small}{\hfill $\Box$ \\}
+\newenvironment{solution}[1]{\noindent \emph{Soluci\'on#1:} \normalfont \it \newline \small}{\normalsize \hfill $\Box$ \\}
+\newenvironment{remark}{\noindent \emph{Nota: } \normalfont}{\\}
+
+\newcommand{\mc}[1]{\mathcal{#1}}
+
+\newcommand{\implicationProof}[2]{{\bf ($ #1 \Rightarrow #2 $)}\newline}
+
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\newcommand{\St}[2]{St_{#1}(#2)}
+\newcommand{\N}[2]{N_{#1}(#2)}
+\newcommand{\C}[2]{C_{#1}(#2)}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\Span}[1]{\left \langle #1 \right \rangle}
+\newcommand{\init}{\hspace{4mm}}
+
+\newcommand{\DM}{{\bf DM }}
+\newcommand{\Lie}{{\bf Lie }}
+
+\newcommand{\obj}{{\it Obj \ }}
+\newcommand{\id}{\mathbbm{1}}
+
+\newcommand{\Hom}[1]{Hom \left( #1 \right)}
+\newcommand{\Homm}[2]{Hom_{#1} \left( #2 \right)}
+\newcommand{\HomC}[1]{Hom_\mathcal{C} \left( #1 \right)}
+\newcommand{\HomL}[1]{Hom_\Lambda \left( #1 \right)}
+\newcommand{\HomR}[1]{Hom_R \left( #1 \right)}
+\newcommand{\HomLie}[1]{Hom_{\Lie} \left( #1 \right)}
+\newcommand{\HomDM}[1]{Hom_{\DM} \left( #1 \right)}
+\newcommand{\SHom}[1]{\underline{Hom} \left( #1 \right)}
+
+\newcommand{\I}[1]{\mathcal{I}\left( #1 \right)}
+\newcommand{\stCat}[1]{\underline{\mathcal{#1}}}
+\newcommand{\stid}{\underline{\mathbbm{1}}}
+\newcommand{\un}[1]{\underline{#1}}
+\newcommand{\T}{{\bf T}}
+
+\newcommand{\ArrowR}[1]{\overset{#1}{\rightarrow}}
+\newcommand{\ArrowL}[1]{\overset{#1}{\leftarrow}}
+\newcommand{\aup}[1]{{#1}^*}
+\newcommand{\adown}[1]{{#1}_*}
+\newcommand{\im}{Im \ }
+\newcommand{\cli}[3]{\overline{\left(\overline{( #1 , #2)}, #3 \right)}}
+\newcommand{\cld}[3]{\overline{\left(#1, \overline{( #2 , #3)}\right)}}
+\newcommand{\upla}[1]{\left( #1 \right)}
+
+\newcommand{\innerProd}[2]{\left \langle #1, #2 \right \rangle}
+\newcommand{\norm}[1]{\left\Vert #1 \right\Vert}
+
+\newcommand{\D}[3]{\frac{\partial \left( #1 \right)}{\partial x_{#2}} \left( \varphi \left(#3\right) \right)}
+\newcommand{\Di}[3]{\frac{\partial \left( #1\circ \varphi^{-1} \right)}{\partial x_{#2}} \left( \varphi \left(#3\right) \right)}
+
+\newcommand{\op}[1]{{#1}^{op}}
+
+\newcommand{\exactSec}[5]{\xymatrix{0 \ar[r] & #1 \ar[r]^{#4} & #2 \ar[r]^{#5} & #3 \ar[r] & 0}}
+\newcommand{\exactTriang}[6]{\xymatrix{#1 \ar[r]^{#4} & #2 \ar[r]^{#5} & #3 \ar[r]^{#6} &  \T #1 }}
+
+\newcommand{\marcodiv}[4]
+{
+	\begin{figure}[!h]
+		\begin{minipage}[b]{#1\textwidth}
+			#3			
+		\end{minipage} \hfill 
+		\begin{minipage}[b]{#2\textwidth}
+			#4
+		\end{minipage}
+	\end{figure}
+	
+}
+
+
+\newcommand{\proofdiv}[1]
+{
+	\begin{multicols}{2}
+		\begin{proof}
+		#1
+		\end{proof}
+	\end{multicols}
+}
+
+\newcommand{\leftdefinition}[2]
+{
+	$$ #1  \left\{ 
+		\begin{array}{rl}
+			#2
+		\end{array}\right.
+	$$
+}
+
+\newcommand{\newdef}[2]
+{
+	\begin{definition}
+		{\it #1: } \\
+		{#2}
+	\end{definition}	
+}
+
+% RUL0's commands
+\newcommand{\change}[1]{\newpage \jcematcomheading{Simulaci\'on. 2018-2019}{#1}{}}
+\newcommand{\bigo}[1]{$\mathbf{O(#1)}$}
+\newcommand{\nat}{{$\mathbb{N}$} }
+\newcommand{\sumAll}[3]{$\underset{#1 \ \in \ #2}{\sum #3}$}
+\newcommand{\question}[1]{{\textquestiondown}#1?}
+\newcommand{\exclamation}[1]{{\textexclamdown}#1!}
+\newcommand{\tuple}[2]{{$<#1,$ $#2>$} }
+\newcommand{\point}{{\tuple{x}{y}} }

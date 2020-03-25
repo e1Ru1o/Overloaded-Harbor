@@ -4,117 +4,112 @@
 \change{1}
 \section{Introducci\'on}
 	Conociendo particularidades de una zona portuaria, tales como la manera
-	en que distrubuyen los arribos al puerto, cantidad de muelles, cantidad de
-	barcos a atender, asi como otros datos presentes en la orientaci\'on \ref{order}
+	en que distribuyen los arribos al puerto, cantidad de muelles, cantidad de
+	barcos a atender, as\'i como otros datos presentes en la orientaci\'on \cite{order}
 	se desea conocer la media del tiempo de espera de los barcos en el puerto.
 
 	Dado el problema antes mencionado, ser\'a analizada una manera de simular
 	el comportamiento del puerto de modo que se logre estimar dicha media.
 
 \section{Modelaci\'on}
-	Para simular el comportamiento descrito en la orientaci\'on se utilizo como
+	Para simular el comportamiento descrito en la orientaci\'on se utiliz\'o como
 	base un modelo de varios servidores conectados en paralelo. Dichos servidores
-	seri\'an los muelles disponibles en el puerto, los cuales tendr\'an como usuarios 
+	ser\'ian los muelles disponibles en el puerto, los cuales tendr\'an como usuarios 
 	a los barcos que llegan al puerto. 
+	
 	El flujo en el sistema queda bloqueado cada vez que se hace una operaci\'on de 
 	transportaci\'on de un barco, dado que solo se tiene un remolcador, es decir, si se 
 	analiza el sistema dividido en 3 secciones, entrada, servidores y salida, solo puede 
-	estar dezplas\'andose un \'unico barco entre secciones, lo cual no afecta el comportamiento
+	estar desplaz\'andose un \'unico barco entre secciones, lo cual no afecta el comportamiento
 	propio de cada secci\'on.
-	La entrada genera una cola de llegada de la cual ser'an dezplasados ordenamente los
-	usuarios hacia los servidores, de donde seg\'un van terminando de recivir su servicio
+	
+	La entrada genera una cola de llegada de la cual ser\'an desplazados ordenamente los
+	usuarios hacia los servidores, de donde, seg\'un van terminando de recibir su servicio,
 	son trasladados a la salida. 
-	El costo temporal de las operaci\'ones en este sistema determina el tiempo de espera 
-	de cada barco y por tanto nos permitira hallar media de espera.
+	
+	El costo temporal de las operaciones en este sistema determina el tiempo de espera 
+	de cada barco y por tanto nos permitir\'a hallar la media de espera.
 
 \section{Implementaci\'on}
 	\subsection{C\'odigo}
-		La implementaci\'on del sistema se puede encontrar en \ref{repo} y ser\'a descrita
+		La implementaci\'on del sistema se puede encontrar en \cite{repo} y ser\'a descrita
 		en las siguientes secciones.
 
 	\subsection{Ideas generales}
-		Dada la necesidad de conocer el tiempo de los eventos y manejarlos ordenadamente, dado que de
-		no hacerse de esta manera podr\'ian surgir problemas conocidos como \bf{starvation} o 
-		\bf{muerte por hambre}, pu\'es alg\'un barco puede quedar olvido y esto afectar el resultado 
-		que se busca. Por lo anterior se considero crear un sistema donde los eventos son atentidos 
-		seg\'un su orden temporal.
+	
+		Los eventos se manejar\'an ordenadamente, puesto que de
+		no hacerse de esta manera podr\'ian surgir problemas conocidos, como es el caso de {\bf{starvation}} o 
+		{\bf{muerte por hambre}}, pues alg\'un barco puede quedar olvidado y esto afectar el resultado 
+		que se busca. Por lo anterior y la necesidad de conocer el tiempo de los eventos, se consider\'o crear un sistema donde los eventos son atentidos seg\'un su orden temporal.
 
 		Con este objetivo se debe mantener en el sistema una cola de eventos que los mantenga ordenados
-		respecto al tiempo.
+		respecto al tiempo. No obstante, esto no garantiza que el sistema fluya de la manera esperada; puesto que cada evento est\'a relacionado a un usuario, adem\'as de al tiempo en el que ocurre, lo cual no se est\'a tomando en consideraci\'on. Si hay 2 eventos que ocurren al mismo tiempo, deber\'ia ser atendido primero aquel cuyo usuario haya arribado primero al sistema; sin embargo son atendidos seg\'un su aparici\'on en la cola, lo que resulta incorrecto en algunos casos. Para solucionar este problema basta mantener una ordenaci\'on de los	eventos que tenga en cuenta ambos criterios.
 
-		La ordenaci\'on anterior no garantiza que el sistema fluya de la manera esperada, dado q si 2 
-		eventos ocurrieran al mismo tiempo, el primero en la cola ser\'ia atendido antes, lo caul puede 
-		ser incorrecto en algunos casos, dado que cada evento esta relacionado a un \'unico usuario, lo 
-		cual implica que si 2 eventos posseen igual tiempo, debe ser atendido aquel que este relacionado 
-		al usuario que arribo al sistema primero. Luego basta mantener una ordenaci\'on de los
-		eventos que tenga en cuenta ambos criterios.
+		Para manejar los eventos se cre\'o un controlador que mantiene la cola ordenada de la manera antes mencionada. Pero al atender un evento es necesario, en la mayor\'ia de las ocasiones, generar uno nuevo que contin\'ue el recorrido del usuario	en cuesti\'on dentro del sistema, lo cual no representa un problema si cada evento conoce cu\'al es el siguiente estado al que debe moverse el barco.
 
-		Para manejar el orden de los eventos se creo un controlador que mantiene la cola de eventos 
-		ocurridos ordenados de la manera antes mencionada. Pero al atender un evento es necesario 
-		en la mayoria de las ocaciones generar uno nuevo para que continue el recorrido del usuario
-		en cuesti\'on dentro del sistema. Esta nueva necesidad no representa un problema si cada
-		evento conoce cual es el siguiente estado al que debe moverse el barco.
+		En conclusi\'on, para simular el puerto basta definir un controlador que genere y 
+		ejecute los eventos correctamente apoy\'andose en la cola de las ocurrencias de los mismos.
 
-		En conclusi\'on para simular el puerto basta definir un controlador que genere y 
-		ejecute los eventos correctamente apoyandose en la cola de las ocurrencias de los mismos, 
-		de la cual tambi\'en ser\'a el encargado. 
-
-		Todo lo antes mencionado se puede encontrar en \ref{harbor}.
+		Todo lo antes mencionado se puede encontrar en \cite{harbor}.
 
 		Otro detalle importante es que cada evento debe saber calcular su tiempo de
-		ejecuci\'on, y para ello se apoyan en las implentaiones brindadas en \ref{utils}
+		ejecuci\'on, y para ello se utilizan las implentaciones brindadas en \cite{utils}
 
+	\change{2}
 	\subsection{Eventos}
-		Como ya quedo implicito los eventos estar\'an compuestos por tres datos de 
-		inter\'es y tendr\'an la siguiente estructura \bf{<time, user, callback>}.
+		Como ya qued\'o impl\'icito, los eventos estar\'an compuestos por tres datos de 
+		inter\'es y tendr\'an la siguiente estructura {\bf{<time, user, callback>}}.
 
-		El recorrido de un barco en el puerto esta determinado por los siguientes eventos
-		Arrive <-> Enque -> Move -> Dock -> Ready -> Depart -> Done, los cuales se
-		encargan de generar un nuevo arribo, encolar el nuevo barco, moverlo hacia los
-		muelles, recoger su cargamento, notificar que esta listo para desocupar su muelle,
-		salir nuevamente al puerto, y abandonarlo, respectivamente.
+		El recorrido de un barco en el puerto est\'a determinado por los siguientes eventos:
+		$$Arrive \Leftrightarrow Enqueue \Rightarrow  Move \Rightarrow Dock \Rightarrow Ready \Rightarrow Depart \Rightarrow Done$$
+		los cuales se
+		encargan respectivamente de: generar un nuevo arribo, encolar el nuevo barco, moverlo hacia los
+		muelles, recoger su cargamento, notificar que est\'a listo para desocupar su muelle,
+		salir nuevamente al puerto, y abandonarlo.
 
-		El orden de ocurrencia de los eventos se puede observar que es lineal para cada 
-		barco a pesar de contar con la transici\'on Arrive <- Enque, cuyo significado no es
+		El signigicado de la transici\'on $Arrive \Leftarrow Enqueue$ no es
 		m\'as que el de a\~nadir nuevos usuarios al sistema mientras esto sea posible. Esto
-		se debe a que Enque es el evento que representa el momento en que llega un barco al
-		puerto y arribe es el encargado de generar dichos momentos. Por tanto tras cada
-		ocurrencia de Enque se debe generar un nuevo arribo mientras no hayan llegado
-		todos los usuarios que se planea atender.
+		se debe a que Enqueue es el evento que representa el momento en que llega un barco al
+		puerto y Arrive es el encargado de generar dichos momentos. Por tanto, tras cada
+		ocurrencia de Enqueue, se debe generar un nuevo arribo mientras no hayan llegado
+		todos los usuarios que se planea atender. A pesar de la existencia de esta transici\'on, se puede observar que el orden de ocurrencia de los eventos es lineal para cada 
+		barco. 
 
 	\subsection{Tiempos}
 		Todas las distribuciones que describen el tiempo de duraci\'on de alg\'un
-		proceso fueron implementadas en \ref{utils} tal cual se muestra en el cap\'itulo 5
-		de \ref{ross}.
+		proceso fueron implementadas en \cite{utils} tal cual se muestra en el cap\'itulo 5
+		de \cite{ross}.
 
 	\subsection{Ejecuci\'on}
 		Para simular el puerto con 3 muelles, 1 remolcador y 10 barcos basta abrir 
 		una consola en la direcci\'on del proyecto y ejecutar el comando
-		\bf{python harbor.py}
+		{\bf{python harbor.py}}
 		
-		El sistema fue implementado de manera mas gen\'erica por lo cual tanto la candidad
-		de muelles como la de barcos puede ser modificada, incluso puede
+		El sistema fue implementado de manera mas gen\'erica, por lo cual tanto la candidad
+		de muelles como la de barcos puede ser modificada; incluso, puede
 		modificarse la cantidad de veces que se va a simular para obtener un mayor volumen
 		de datos antes de calcular la media.
-		Para ver como modificar dichos paraametros basta ejecutar
-		\bf{python harbor.py --help}
+		
+		Para ver como modificar dichos par\'ametros basta ejecutar
+		{\bf{python harbor.py --help}}
 
-		Ver README.md en \ref{repo} para mas detalles.
+		Ver README.md en \cite{repo} para m\'as detalles.
 
 \section{Datos obtenidos}
-	Analizando los dos par\'ametros del sistemas, barcos y muelles; mediante
-	simulaciones del sistema fijando uno de ellos se puede ver que el aumento o
-	disminuci\'on en cuanto a la cantidad de barcos que arriban es directamente proporcional
-	a la media, sin embargo mediantes variaciones en la cantidad de muelles se puede 
-	observar que influyen de manera inversa en la media de espera. 
-	Esto comportamiento es algo intuitivo pero no es del todo cierto, dado que mientras
-	m\'as muelles aumenta la cantidad de viajes que da el remolcador sin estar 
-	transportando ning\'un barco lo que a\~nade un costo adicional al sistema que puede
-	llegar a ser determinante en la media de espera.
+	Si se analizan las simulaciones del sistema, fijando en cada caso uno de los par\'ametros: barcos y muelles respectivamente, se puede observar que: el aumento o disminuci\'on en cuanto a la cantidad de barcos que arriban es directamente proporcional a la media; sin embargo, las variaciones en la cantidad de muelles influyen de manera inversa en la media de espera. 
 	
+	Este comportamiento es algo intuitivo pero no es del todo cierto, dado que mientras
+	m\'as muelles, aumenta la cantidad de viajes que da el remolcador sin estar 
+	transportando ning\'un barco, lo que a\~nade un costo adicional al sistema, que puede
+	llegar a ser determinante en la media de espera.
+
 
 \change{de referencias}
 
 \begin{thebibliography}{99}
-	\bibitem{ide} Text (\href{url}{ir | abrir})
+	\bibitem{repo} Repositorio del proyecto (\href{https://github.com/stdevRulo/Overloaded-Harbor/}{ir})
+	\bibitem{ross} Ross 2010 A First Course in Probability 8th Ed (\href{files/ross.pdf}{abrir})
+	\bibitem{harbor} Implementaci\'on del puerto (\href{https://github.com/stdevRulo/Overloaded-Harbor/blob/master/harbor.py}{ir})
+	\bibitem{order} Descripcion del Problema (\href{files/project.pdf}{abrir})
+	\bibitem{utils} Implementaci\'on de las distribuciones (\href{https://github.com/stdevRulo/Overloaded-Harbor/blob/master/utils.py}{ir})
 \end{thebibliography}
